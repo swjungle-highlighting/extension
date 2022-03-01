@@ -1,36 +1,55 @@
 /*global chrome*/
 
 import React, { useEffect, useState } from 'react';
-import logo from './logo.svg';
 import './App.css';
+import Other from './page/Other';
+import Youtube from './page/Youtube';
+import Main from './page/Main';
 
 function App() {
-  const [url, setUrl] = useState('');
+    const [url, setUrl] = useState('');
+    const [isYoutube, SetIsYoutube] = useState('');
 
-  /**
-   * Get current URL
-   */
-  useEffect(() => {
-      const queryInfo = {active: true, lastFocusedWindow: true};
+    /**
+     * Get current URL
+     */
+    useEffect(() => {
+        const queryInfo = { active: true, lastFocusedWindow: true };
 
-      chrome.tabs && chrome.tabs.query(queryInfo, tabs => {
-          const url = tabs[0].url;
-          setUrl(url);
-      });
-  }, []);
+        chrome.tabs && chrome.tabs.query(queryInfo, tabs => {
+            const currentURL = tabs[0].url;
+            setUrl(currentURL);
+            checkURL(currentURL)
+        });
+    }, []);
 
+    /**
+     * Check current URL
+     */
+    function checkURL(url) {
+        if (!url.includes("youtube"))
+        {
+            SetIsYoutube(1)
+        }
+        else if (url === 'https://www.youtube.com/')
+        {
+            SetIsYoutube(2)
+        }
+        else
+        {
+            SetIsYoutube(3)
+        }
+    }
 
-  return (
-      <div className="App">
-          <header className="App-header">
-              <img src={logo} className="App-logo" alt="logo"/>
-              <p>URL:</p>
-              <p>
-                  {url}
-              </p>
-          </header>
-      </div>
-  );
+    return (
+        <div className="App">
+            <header className="App-header">
+                {isYoutube === 1 ? <Other />:null}
+                {isYoutube === 2 ? <Youtube />:null}
+                {isYoutube === 3 ? <Main url={url} />:null}
+            </header>
+        </div>
+    );
 }
 
 export default App;
