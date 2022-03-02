@@ -25,13 +25,20 @@ function Main(props) {
                     requestResult(url)
                 }
                 else {
-                    setCheck("하이라트가 없습니다!")
+                    setCheck("하이라이트가 없습니다!")
                 }
             })
             .catch((error) => {
             });
     }
 
+    function getLinkedInHrefs() {
+        var div=document.createElement("div");
+        document.body.appendChild(div); 
+        div.innerText="test123";
+      }
+
+      
     function requestResult(url) {
         let temp = null;
         axios
@@ -42,23 +49,27 @@ function Main(props) {
 
                 Object.entries(response.data.bookmarker).forEach(([key, value]) => {
                     setMarkers(markers => [...markers, value])
+
+                    chrome.tabs.executeScript({
+                        code: `(${getLinkedInHrefs})()`,
+                      });
                 })
 
                 temp = response.data.result.chat[0].map(
                     (value, index) => ({ x: index, y: value })
-                  );
+                );
                 setChat(temp)
 
                 temp = response.data.result.audio.map(
                     (value, index) => ({ x: index, y: value })
-                  );
+                );
                 setAudio(temp)
 
                 temp = response.data.result.video.map(
                     (value, index) => ({ x: index, y: value })
-                  );
+                );
                 setVideo(temp)
-                
+
             })
             .catch((error) => {
             });
@@ -86,18 +97,19 @@ function Main(props) {
 
     return (
         <div className='main' style={{
-            fontWeight:"bold",
+            fontWeight: "bold",
             fontSize: "1.5rem",
-            }}
-             >
-            {check !== null ? check :
-                markers.map(marker => (
-                    <div key={marker.id}>
-                        <div>● {format(marker.startPointer)}~{format(marker.endPointer)}</div>
-                        <div>{marker.text}</div>
-                        <hr/>
-                    </div>
-                ))
+        }}
+        >
+            {check !== null ? check : (
+                markers.length === 0 ? "북마크가 없습니다" :
+                    markers.map(marker => (
+                        <div key={marker.id}>
+                            <div>● {format(marker.startPointer)}~{format(marker.endPointer)}</div>
+                            <div>{marker.text}</div>
+                            <hr />
+                        </div>
+                    )))
             }
             <Chart dataList={[chat, video, audio]} />
         </div>
