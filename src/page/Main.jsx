@@ -39,7 +39,6 @@ function Main(props) {
                 url: url,
             })
             .then((response) => {
-                console.log('result',response.data)
 
                 Object.entries(response.data.bookmarker).forEach(([key, value]) => {
                     setMarkers(markers => [...markers, value])
@@ -49,19 +48,16 @@ function Main(props) {
                     (value, index) => ({ x: index, y: value })
                   );
                 setChat(temp)
-                console.log('chat',temp)
 
                 temp = response.data.result.audio.map(
                     (value, index) => ({ x: index, y: value })
                   );
                 setAudio(temp)
-                console.log('audio',temp)
 
                 temp = response.data.result.video.map(
                     (value, index) => ({ x: index, y: value })
                   );
                 setVideo(temp)
-                console.log('video',temp)
                 
             })
             .catch((error) => {
@@ -89,12 +85,17 @@ function Main(props) {
     }
 
     return (
-        <div className='main'>
+        <div className='main' style={{
+            fontWeight:"bold",
+            fontSize: "1.5rem",
+            }}
+             >
             {check !== null ? check :
                 markers.map(marker => (
                     <div key={marker.id}>
-                        <div>{format(marker.startPointer)}~{format(marker.endPointer)}</div>
+                        <div>● {format(marker.startPointer)}~{format(marker.endPointer)}</div>
                         <div>{marker.text}</div>
+                        <hr/>
                     </div>
                 ))
             }

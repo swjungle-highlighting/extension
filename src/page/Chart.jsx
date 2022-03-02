@@ -575,7 +575,7 @@ const DataChart = (props) => {
       .setOrigin(UIOrigins.LeftBottom)
       .setMargin(5);
     // const resultTableRows = new Array(1 + CHANNELS).fill(0).map(_ => resultTable.addElement(UIElementBuilders.ButtonBox))
-    const resultTableRows = new Array(4 + CHANNELS)
+    const resultTableRows = new Array(1)
       .fill(0)
       .map((_) => resultTable.addElement(UIElementBuilders.ButtonBox));
     resultTable.dispose();
@@ -604,16 +604,6 @@ const DataChart = (props) => {
         //   // 마우스 커서창에 뜨는 레전드 박스 텍스트 값
         //   resultTableRows[1 + i].setText(series.getName() + ': ' + (nearestDataPoint ? chart.getDefaultAxisY().formatValue(nearestDataPoint.location.y) + ' €?' : ''))
         // }
-        for (let i = 0; i < 3 + CHANNELS; i += 1) {
-          // 마우스 커서창에 뜨는 레전드 박스 텍스트 값
-          resultTableRows[1 + i].setText(
-            i === 0 ? '클릭: 이동'
-              : (i === 1 ? 'L->R드래그: 구간반복'
-                : (i === 2 ? 'R->L드래그: 구간확대'
-                  : (i === 3 ? '시간축 휠: 구간확대'
-                    : (i === 4 ? '시간축 드래그: 좌우이동'
-                      : '시간축 더블클릭: 초기화')))))
-        }
         resultTable.restore().setPosition(mouseLocationEngine);
         xTicks.forEach((xTick) => xTick.restore().setValue(mouseLocationAxisX));
       });
