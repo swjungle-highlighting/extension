@@ -43,11 +43,9 @@ function App() {
 
     return (
         <div className="App">
-            <header className="App-header">
-                {isYoutube === 1 ? <Other />:null}
-                {isYoutube === 2 ? <Youtube />:null}
-                {isYoutube === 3 ? <Main url={url} />:null}
-            </header>
+            {isYoutube === 1 ? <Other />:null}
+            {isYoutube === 2 ? <Youtube />:null}
+            {isYoutube === 3 ? <Main url={url} />:null}
         </div>
     );
 }
