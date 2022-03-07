@@ -33,9 +33,10 @@ function Main(props) {
     }
 
     function getLinkedInHrefs() {
-        var div=document.createElement("div");
-        document.body.appendChild(div); 
-        div.innerText="test123";
+        var first = document.createElement('div');
+        first.createTextNode('hello');
+        var target=document.getElementsByClassName("ytp-timed-markers-container")[0];
+        target.appendChild(first); 
       }
 
       

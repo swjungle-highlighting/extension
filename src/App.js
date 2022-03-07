@@ -5,6 +5,7 @@ import './App.css';
 import Other from './page/Other';
 import Youtube from './page/Youtube';
 import Main from './page/Main';
+import Header from './page/Header';
 
 function App() {
     const [url, setUrl] = useState('');
@@ -43,6 +44,7 @@ function App() {
 
     return (
         <div className="App">
+            <Header />
             {isYoutube === 1 ? <Other />:null}
             {isYoutube === 2 ? <Youtube />:null}
             {isYoutube === 3 ? <Main url={url} />:null}
