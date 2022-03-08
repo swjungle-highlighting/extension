@@ -17,7 +17,7 @@ function Main(props) {
 
     function checkResult(url) {
         console.log(url)
-        if (url.length >44){
+        if (url.length > 44) {
             url = url.substr(0, 43)
         }
         console.log(url)
@@ -40,15 +40,24 @@ function Main(props) {
     function getLinkedInHrefs() {
         var first = document.createElement('div');
         first.createTextNode('hello');
-        var target=document.getElementsByClassName("ytp-timed-markers-container")[0];
-        target.appendChild(first); 
-      }
+        var target = document.getElementsByClassName("ytp-timed-markers-container")[0];
+        target.appendChild(first);
+        alert("test");
+    }
 
-      
+
     function requestResult(url) {
+        let command = '';
+        let percent = 0;
+        chrome.extension.onMessage.addListener(function (request, sender) {
+            if (request.action == "getSource") {
+                console.log(request.source);
+            }
+        });
+
         let temp = null;
         console.log(url)
-        if (url.length >44){
+        if (url.length > 44) {
             url = url.substr(0, 43)
         }
         console.log(url)
@@ -57,13 +66,28 @@ function Main(props) {
                 url: url,
             })
             .then((response) => {
-
+                console.log(response.data)
                 Object.entries(response.data.bookmarker).forEach(([key, value]) => {
                     setMarkers(markers => [...markers, value])
+                
+                    new Promise((resolve, reject) => {
+                        setTimeout(
+                            () => {
+                                percent = ((value.startPointer/Number(response.data.result.duration))*100).toFixed(4);
+                                console.log(percent);
+                                command = 'var config = '.concat(percent.toString(), ';');
+                                console.log(command)
 
-                    chrome.tabs.executeScript({
-                        code: `(${getLinkedInHrefs})()`,
-                      });
+                                chrome.tabs.executeScript(null, {
+                                    code: command
+                                }, function () {
+                                    chrome.tabs.executeScript(null, { file: 'script.js' });
+                                });
+                            }, 2000
+                        );
+                    });
+
+
                 })
 
                 temp = response.data.result.chat[0].map(
@@ -106,10 +130,10 @@ function Main(props) {
         return `${mm}:${ss}`;
     }
 
-    function clickE(start){
+    function clickE(start) {
         console.log("clicked")
-        const newURL = "https://www.youtube.com/watch?v=gdZLi9oWNZg&t="+start+"s";
-        chrome.tabs.update(undefined, {url:newURL});
+        const newURL = "https://www.youtube.com/watch?v=gdZLi9oWNZg&t=" + start + "s";
+        chrome.tabs.update(undefined, { url: newURL });
     }
 
     return (
@@ -121,7 +145,7 @@ function Main(props) {
             {check !== null ? check : (
                 markers.length === 0 ? "북마크가 없습니다" :
                     markers.map(marker => (
-                        <div key={marker.id} onClick={()=>{clickE(marker.startPointer)}}>
+                        <div key={marker.id} onClick={() => { clickE(marker.startPointer) }}>
                             {/* <button >go</button> */}
                             <div>● {format(marker.startPointer)}~{format(marker.endPointer)}</div>
                             <div>{marker.text}</div>

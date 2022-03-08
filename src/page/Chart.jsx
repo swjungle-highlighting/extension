@@ -105,12 +105,6 @@ const DataChart = (props) => {
     }
   }
 
-  useEffect(()=>
-  {
-      console.log('chart', dataList.length)
-      console.log('chart test', dataList.length!==3)
-  },[dataList])
-
   /* 메인 차트 그리기 */
   useEffect(() => {
     if (dataList.length === 0)
