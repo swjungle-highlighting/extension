@@ -16,6 +16,11 @@ function Main(props) {
 
 
     function checkResult(url) {
+        console.log(url)
+        if (url.length >44){
+            url = url.substr(0, 43)
+        }
+        console.log(url)
         axios
             .post(server_addr + "/extension", {
                 url: url,
@@ -42,6 +47,11 @@ function Main(props) {
       
     function requestResult(url) {
         let temp = null;
+        console.log(url)
+        if (url.length >44){
+            url = url.substr(0, 43)
+        }
+        console.log(url)
         axios
             .post(server_addr + "/flask/hello", {
                 url: url,
@@ -96,6 +106,12 @@ function Main(props) {
         return `${mm}:${ss}`;
     }
 
+    function clickE(start){
+        console.log("clicked")
+        const newURL = "https://www.youtube.com/watch?v=gdZLi9oWNZg&t="+start+"s";
+        chrome.tabs.update(undefined, {url:newURL});
+    }
+
     return (
         <div className='main' style={{
             fontWeight: "bold",
@@ -105,7 +121,8 @@ function Main(props) {
             {check !== null ? check : (
                 markers.length === 0 ? "북마크가 없습니다" :
                     markers.map(marker => (
-                        <div key={marker.id}>
+                        <div key={marker.id} onClick={()=>{clickE(marker.startPointer)}}>
+                            {/* <button >go</button> */}
                             <div>● {format(marker.startPointer)}~{format(marker.endPointer)}</div>
                             <div>{marker.text}</div>
                             <hr />
