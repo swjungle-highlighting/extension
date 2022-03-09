@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-function Youtube(props) {
+function Twitch(props) {
 
     // const server_addr = "http://143.248.193.175:5000";
     const server_addr = "http://192.249.28.30:5000";
@@ -60,7 +60,6 @@ function Youtube(props) {
         requestResult(props.url)
     }, [])
 
-
     function pad(string) {
         return ("0" + string).slice(-2);
     }
@@ -76,12 +75,6 @@ function Youtube(props) {
         return `${mm}:${ss}`;
     }
 
-    function clickE(start) {
-        console.log("clicked")
-        const newURL = "https://www.youtube.com/watch?v=gdZLi9oWNZg&t=" + start + "s";
-        chrome.tabs.update(undefined, { url: newURL });
-    }
-
     return (
         <div className='main' style={{
             fontWeight: "bold",
@@ -90,7 +83,7 @@ function Youtube(props) {
         >
             {check !== null ? check : (
                 markers.map(marker => (
-                    <div key={marker.id} onClick={() => { clickE(marker.startPointer) }}>
+                    <div key={marker.id}>
                         {/* <button >go</button> */}
                         <div>● {format(marker.startPointer)}~{format(marker.endPointer)}</div>
                         <div>{marker.text}</div>
@@ -102,4 +95,4 @@ function Youtube(props) {
     );
 }
 
-export default Youtube;
+export default Twitch;
