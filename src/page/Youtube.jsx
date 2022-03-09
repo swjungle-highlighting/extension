@@ -5,10 +5,10 @@ import axios from 'axios';
 
 function Youtube(props) {
 
-    // const server_addr = "http://143.248.193.175:5000";
-    const server_addr = "http://192.249.28.30:5000";
+    const server_addr = "http://143.248.193.175:5000";
+    // const server_addr = "http://192.249.28.30:5000";
     const [markers, setMarkers] = useState([]);
-    const [check, setCheck] = useState(null);
+    const [check, setCheck] = useState('loading');
 
     function requestResult(url) {
         let command = '';
@@ -34,7 +34,7 @@ function Youtube(props) {
                     console.log(response.data)
                     Object.entries(response.data.bookmarker).forEach(([key, value]) => {
                         setMarkers(markers => [...markers, value])
-                        timeList.push(((value.startPointer / Number(response.data.result.duration)) * 100).toFixed(4))
+                        timeList.push(((value.startPointer / Number(response.data.duration)) * 100).toFixed(4))
                     })
 
                     console.log(timeList);
@@ -48,9 +48,8 @@ function Youtube(props) {
                         });
                     }
 
-                } else {
-                    setCheck("북마커가 없습니다!")
-                }
+                } 
+                setCheck(null)
             })
             .catch((error) => {
             });
@@ -88,7 +87,7 @@ function Youtube(props) {
             fontSize: "1.5rem",
         }}
         >
-            {check !== null ? check : (
+            {check === 'loading' ? check : (
                 markers.map(marker => (
                     <div key={marker.id} onClick={() => { clickE(marker.startPointer) }}>
                         {/* <button >go</button> */}
