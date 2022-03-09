@@ -2,16 +2,12 @@
 
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import Chart from './Chart';
 
 function Main(props) {
 
     const server_addr = "http://143.248.193.175:5000";
     const [markers, setMarkers] = useState([]);
     const [check, setCheck] = useState(null);
-    const [chat, setChat] = useState();
-    const [audio, setAudio] = useState();
-    const [video, setVideo] = useState();
 
 
     function checkResult(url) {
@@ -55,7 +51,6 @@ function Main(props) {
             }
         });
 
-        let temp = null;
         console.log(url)
         if (url.length > 44) {
             url = url.substr(0, 43)
@@ -83,22 +78,6 @@ function Main(props) {
                         chrome.tabs.executeScript(null, { file: 'script.js' });
                     });
                 }
-                
-
-                temp = response.data.result.chat[0].map(
-                    (value, index) => ({ x: index, y: value })
-                );
-                setChat(temp)
-
-                temp = response.data.result.audio.map(
-                    (value, index) => ({ x: index, y: value })
-                );
-                setAudio(temp)
-
-                temp = response.data.result.video.map(
-                    (value, index) => ({ x: index, y: value })
-                );
-                setVideo(temp)
 
             })
             .catch((error) => {
@@ -148,7 +127,6 @@ function Main(props) {
                         </div>
                     )))
             }
-            <Chart dataList={[chat, video, audio]} />
         </div>
     );
 }
