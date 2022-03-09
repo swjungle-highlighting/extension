@@ -12,7 +12,6 @@ function Main(props) {
     const [chat, setChat] = useState();
     const [audio, setAudio] = useState();
     const [video, setVideo] = useState();
-    const [url, setUrl] = useState();
 
 
     function checkResult(url) {
@@ -48,7 +47,8 @@ function Main(props) {
 
     function requestResult(url) {
         let command = '';
-        let percent = 0;
+        let timeList = [];
+
         chrome.extension.onMessage.addListener(function (request, sender) {
             if (request.action == "getSource") {
                 console.log(request.source);
@@ -69,26 +69,21 @@ function Main(props) {
                 console.log(response.data)
                 Object.entries(response.data.bookmarker).forEach(([key, value]) => {
                     setMarkers(markers => [...markers, value])
-                
-                    new Promise((resolve, reject) => {
-                        setTimeout(
-                            () => {
-                                percent = ((value.startPointer/Number(response.data.result.duration))*100).toFixed(4);
-                                console.log(percent);
-                                command = 'var config = '.concat(percent.toString(), ';');
-                                console.log(command)
-
-                                chrome.tabs.executeScript(null, {
-                                    code: command
-                                }, function () {
-                                    chrome.tabs.executeScript(null, { file: 'script.js' });
-                                });
-                            }, 2000
-                        );
-                    });
-
-
+                    timeList.push(((value.startPointer/Number(response.data.result.duration))*100).toFixed(4))
                 })
+
+                console.log(timeList);
+                command = 'var config = ['.concat(timeList.toString(), '];');
+                console.log(command)
+                if (timeList.length !== 0)
+                {
+                    chrome.tabs.executeScript(null, {
+                        code: command
+                    }, function () {
+                        chrome.tabs.executeScript(null, { file: 'script.js' });
+                    });
+                }
+                
 
                 temp = response.data.result.chat[0].map(
                     (value, index) => ({ x: index, y: value })
