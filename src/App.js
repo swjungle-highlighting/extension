@@ -3,9 +3,10 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
 import Other from './page/Other';
+import SiteHome from './page/SiteHome';
 import Youtube from './page/Youtube';
-import Main from './page/Main';
 import Header from './page/Header';
+import Twitch from './page/Twitch';
 
 function App() {
     const [url, setUrl] = useState('');
@@ -28,17 +29,21 @@ function App() {
      * Check current URL
      */
     function checkURL(url) {
-        if (!url.includes("youtube"))
+        if (!url.includes("youtube") && !url.includes("twitch"))
         {
             SetIsYoutube(1)
         }
-        else if (url === 'https://www.youtube.com/')
+        else if (url === 'https://www.youtube.com/' || url === 'https://www.twitch.tv/')
         {
             SetIsYoutube(2)
         }
-        else
+        else if (url.includes("youtube"))
         {
             SetIsYoutube(3)
+        }
+        else if (url.includes("twitch"))
+        {
+            SetIsYoutube(4)
         }
     }
 
@@ -46,8 +51,9 @@ function App() {
         <div className="App">
             <Header />
             {isYoutube === 1 ? <Other />:null}
-            {isYoutube === 2 ? <Youtube />:null}
-            {isYoutube === 3 ? <Main url={url} />:null}
+            {isYoutube === 2 ? <SiteHome />:null}
+            {isYoutube === 3 ? <Youtube url={url} />:null}
+            {isYoutube === 4 ? <Twitch url={url} />:null}
         </div>
     );
 }
