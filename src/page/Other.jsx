@@ -25,7 +25,7 @@ function Other() {
         //     <span className='other-message'>유튜브가 아닙니다. 유튜브로 이동하세요.</span>
         //     <button className='other-button' onClick={newTab}>유튜브 바로가기</button>
         <div className='other-box'>
-            <span className='other-message'>여기는 유튜브 또는 트위치가 아닙니다. 유튜브 또는 트위치로 이동하세요.</span>
+            <span className='other-message'>여기는 유튜브 또는 트위치가 아닙니다. <br /> 유튜브 또는 트위치로 이동하세요.</span>
             <div>
                 <button className='other-button' onClick={goYoutube}>유튜브 바로가기</button>
             </div>
