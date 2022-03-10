@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import './Main.scss'
 
 function Youtube(props) {
 
@@ -84,7 +83,7 @@ function Youtube(props) {
 
     function clickE(start) {
         console.log("clicked")
-        const newURL = "https://www.youtube.com/watch?v=gdZLi9oWNZg&t=" + start + "s";
+        const newURL = basicUrl+"&t=" + start + "s";
         chrome.tabs.update(undefined, { url: newURL });
     }
 
