@@ -76,8 +76,8 @@ ul {
 }
 
 #Home {
-  font-size: 30px;
-  font-weight: bold;
+  font-size: 34px;
+  font-weight: 650;
   background: #935ef4;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -109,9 +109,18 @@ ul {
 }
 
 .Logo {
-  width: 30px;
+  width: 50px;
   align-items: center;
   justify-content: center;
+  margin-top: 5px;
+  margin-left: 40px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+}
+
+.Logoe-text {
+  margin-top: 5px;
+  margin-left: 5px;
   margin-right: 5px;
   margin-bottom: 5px;
 }
