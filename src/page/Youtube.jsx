@@ -1,14 +1,17 @@
-/*global chrome*/
+/*global chrome */
 
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import './Main.scss'
 
 function Youtube(props) {
 
+    // const server_addr = "http://192.249.28.125:5000";
     const server_addr = "http://143.248.193.175:5000";
-    // const server_addr = "http://192.249.28.30:5000";
     const [markers, setMarkers] = useState([]);
     const [check, setCheck] = useState('loading');
+	const [basicUrl, setBasicUrl] = useState('');
+
 
     function requestResult(url) {
         let command = '';
@@ -56,7 +59,11 @@ function Youtube(props) {
     }
 
     useEffect(() => {
-        requestResult(props.url)
+        console.log('props.url in Effect', props.url)
+        const url = props.url.substr(0, 43)
+        setBasicUrl(url);
+        requestResult(url)
+        console.log('props.url in Effect', url)
     }, [])
 
 
@@ -91,6 +98,22 @@ function Youtube(props) {
                 markers.map(marker => (
                     <div key={marker.id} onClick={() => { clickE(marker.startPointer) }}>
                         {/* <button >go</button> */}
+                        <div
+								className="thumbnail"
+								style={{
+									background: `url(${server_addr}/${basicUrl?.split("=")[1]
+										}.jpg)`,
+									width: "176px",
+									height: "100px",
+									backgroundRepeat: "no-repeat",
+									backgroundPosition: `  ${-177 *
+										Math.floor(
+											Math.floor(marker.startPointer % 60) / 10
+										) -
+										1
+										}px  ${-100 * Math.floor(marker.startPointer / 60)}px`,
+								}}
+							/>
                         <div>● {format(marker.startPointer)}~{format(marker.endPointer)}</div>
                         <div>{marker.text}</div>
                         <hr />

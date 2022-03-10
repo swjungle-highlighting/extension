@@ -1,0 +1,28 @@
+.other-box {
+    background-color: #1b1b24;
+    border: none;
+    font-size: 18px;
+    font-weight: 400;
+    padding: 10px;
+    margin: 10 px;
+    margin: auto;
+    width: 100%;
+
+    .other-message {
+        color: white;
+        margin-top: 10px;
+        margin-left: 5px;
+        margin-right: 5px;
+        margin-bottom: 10px;
+    }
+
+    .other-button {
+        border: none;
+        border-radius: 0.5rem;
+        font-size: 18px;
+        font-weight: 550;
+        height: 2.5rem;
+        margin: 10px;
+        width: 40%;
+    }
+}
